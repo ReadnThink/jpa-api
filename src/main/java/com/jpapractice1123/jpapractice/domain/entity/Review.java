@@ -10,18 +10,13 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "book")
-public class Book {
+public class Review {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-//    private Long authorId;
+    private String title;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
-
-    @OneToOne
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
 }
