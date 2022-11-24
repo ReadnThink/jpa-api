@@ -25,13 +25,16 @@ public class HospitalResponse {
     private String hospitalName;
 
     @OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY)
-    private List<Review> reviews;
+    private List<Review> reviews; //oneToMany로 일대 다 관계를 설정해 주어서 review를 불러올 수 있다.
+
 
     public static HospitalResponse of(Hospital hospital) {
+        //HospitalResponse로 변환하주는 로직
         return HospitalResponse.builder()
                 .id(hospital.getId())
                 .roadNameAddress(hospital.getRoadNameAddress())
                 .hospitalName(hospital.getHospitalName())
+                .reviews(hospital.getReviews())
                 .build();
     }
 }

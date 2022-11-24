@@ -16,8 +16,8 @@ public class HospitalService {
     }
 
     public HospitalResponse findById(Integer id) {
-        Optional<Hospital> optionalHospital = hospitalRepository.findById(id);
-        HospitalResponse hospitalResponse = HospitalResponse.of(optionalHospital.get());
+        Optional<Hospital> optionalHospital = hospitalRepository.findById(id); //받아온 id로 hopital을 찾고
+        HospitalResponse hospitalResponse = HospitalResponse.of(optionalHospital.get()); //HospitalResponse의 of를 통해 hospital을 dto로 변경한다.
         return hospitalResponse;
     }
 
