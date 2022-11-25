@@ -35,4 +35,13 @@ public class ReviewService {
         return new ReviewCreateResponse(savedReview.getId(), savedReview.getTitle(),
                 savedReview.getContent(), savedReview.getUserName(), "리뷰 등록이 성공했습니다.");
     }
+
+    public Review getReview(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 id가 없습니다.")); //Optional로 감싸는것이 아니라 Error를 직접 처리한다.
+        Optional<Review> optionalReview = reviewRepository.findById(id);
+        optionalReview.isEmpty();
+        optionalReview.orElseThrow();
+        return review;
+    }
 }
