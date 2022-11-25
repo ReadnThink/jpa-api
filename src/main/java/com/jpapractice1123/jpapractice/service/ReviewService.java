@@ -2,13 +2,17 @@ package com.jpapractice1123.jpapractice.service;
 
 import com.jpapractice1123.jpapractice.domain.dto.ReviewCreateRequest;
 import com.jpapractice1123.jpapractice.domain.dto.ReviewCreateResponse;
+import com.jpapractice1123.jpapractice.domain.dto.ReviewReadResponse;
 import com.jpapractice1123.jpapractice.domain.entity.Hospital;
 import com.jpapractice1123.jpapractice.domain.entity.Review;
 import com.jpapractice1123.jpapractice.repository.HospitalRepository;
 import com.jpapractice1123.jpapractice.repository.ReviewRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -43,5 +47,21 @@ public class ReviewService {
         optionalReview.isEmpty();
         optionalReview.orElseThrow();
         return review;
+    }
+
+    //리뷰만 찾는 로직
+    public List<ReviewReadResponse> findAllByHospitalId(Integer hospitalId) {
+        Hospital hospital = hospitalRepository.findById(hospitalId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id가 없습니다."));
+        List<ReviewReadResponse> reviews = reviewRepository.findByHospital(hospital)
+                .stream().map(review -> ReviewReadResponse.builder()
+                        .id(review.getId())
+                        .title(review.getTitle())
+                        .content(review.getContent())
+                        .hospitalName(review.getHospital().getHospitalName())
+                        .patientName(review.getUserName())
+                        .build()
+                ).collect(Collectors.toList());
+        return reviews;
     }
 }
